@@ -1,0 +1,123 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6DF7F126-688D-426F-B564-1ECD1AD62947}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ynhrMemeberManage.Domain</RootNamespace>
+    <AssemblyName>ynhrMemeberManage.Domain</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleAssemblies>C:\Program Files (x86)\Microsoft Visual Studio 8\Team Tools\Static Analysis Tools\FxCop\\rules</CodeAnalysisRuleAssemblies>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bill.cs" />
+    <Compile Include="CostLog.cs" />
+    <Compile Include="Dept.cs" />
+    <Compile Include="DeptFunc.cs" />
+    <Compile Include="FMember.cs" />
+    <Compile Include="FMemberLog.cs" />
+    <Compile Include="FMemberPrepayLog.cs" />
+    <Compile Include="FMemberProduct.cs" />
+    <Compile Include="FMemberProductLog.cs" />
+    <Compile Include="FuncList.cs" />
+    <Compile Include="Job.cs" />
+    <Compile Include="JobLog.cs" />
+    <Compile Include="JobSerialNo.cs" />
+    <Compile Include="Member.cs" />
+    <Compile Include="MemberCode.cs" />
+    <Compile Include="MemberLog.cs" />
+    <Compile Include="MemberPoints.cs" />
+    <Compile Include="MemberPointsLog.cs" />
+    <Compile Include="MemberPrepayLog.cs" />
+    <Compile Include="MemberProduct.cs" />
+    <Compile Include="MemberProductLog.cs" />
+    <Compile Include="MemberSeat.cs" />
+    <Compile Include="MemberSeatHis.cs" />
+    <Compile Include="MemberSeatLog.cs" />
+    <Compile Include="MemberSignInLog.cs" />
+    <Compile Include="NameCode.cs" />
+    <Compile Include="NT77.cs" />
+    <Compile Include="Oper.cs" />
+    <Compile Include="OperDept.cs" />
+    <Compile Include="OperFunc.cs" />
+    <Compile Include="OperLog.cs" />
+    <Compile Include="OperLogin.cs" />
+    <Compile Include="Prepay.cs" />
+    <Compile Include="PrepayLog.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sales.cs" />
+    <Compile Include="SeqSerialNo.cs" />
+    <Compile Include="Show.cs" />
+    <Compile Include="ShowLog.cs" />
+    <Compile Include="ShowSeat.cs" />
+    <Compile Include="ShowSeatHis.cs" />
+    <Compile Include="ShowSeatLog.cs" />
+    <Compile Include="ShowSerialNo.cs" />
+    <Compile Include="SignInLog.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ORM\ORM.csproj">
+      <Project>{B75734F7-F3D7-4B89-A69F-33885D3F77FF}</Project>
+      <Name>ORM</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,61 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardCommon", "CardCommon\CardCommon.csproj", "{51EC3AF0-388C-4682-8F31-7406A662233B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemberManage", "MemberManage\MemberManage.csproj", "{CC6190D2-4436-4767-9B1A-700F3A6278AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ORM", "ORM\ORM.csproj", "{B75734F7-F3D7-4B89-A69F-33885D3F77FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouchHold", "TouchHold\TouchHold.csproj", "{B571AEAC-DC88-430A-8126-069967EB5685}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{51EC3AF0-388C-4682-8F31-7406A662233B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51EC3AF0-388C-4682-8F31-7406A662233B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51EC3AF0-388C-4682-8F31-7406A662233B}.Debug|x86.ActiveCfg = Debug|x86
+		{51EC3AF0-388C-4682-8F31-7406A662233B}.Debug|x86.Build.0 = Debug|x86
+		{51EC3AF0-388C-4682-8F31-7406A662233B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51EC3AF0-388C-4682-8F31-7406A662233B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51EC3AF0-388C-4682-8F31-7406A662233B}.Release|x86.ActiveCfg = Release|x86
+		{51EC3AF0-388C-4682-8F31-7406A662233B}.Release|x86.Build.0 = Release|x86
+		{CC6190D2-4436-4767-9B1A-700F3A6278AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC6190D2-4436-4767-9B1A-700F3A6278AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC6190D2-4436-4767-9B1A-700F3A6278AC}.Debug|x86.ActiveCfg = Debug|x86
+		{CC6190D2-4436-4767-9B1A-700F3A6278AC}.Debug|x86.Build.0 = Debug|x86
+		{CC6190D2-4436-4767-9B1A-700F3A6278AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC6190D2-4436-4767-9B1A-700F3A6278AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC6190D2-4436-4767-9B1A-700F3A6278AC}.Release|x86.ActiveCfg = Release|x86
+		{CC6190D2-4436-4767-9B1A-700F3A6278AC}.Release|x86.Build.0 = Release|x86
+		{B75734F7-F3D7-4B89-A69F-33885D3F77FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B75734F7-F3D7-4B89-A69F-33885D3F77FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B75734F7-F3D7-4B89-A69F-33885D3F77FF}.Debug|x86.ActiveCfg = Debug|x86
+		{B75734F7-F3D7-4B89-A69F-33885D3F77FF}.Debug|x86.Build.0 = Debug|x86
+		{B75734F7-F3D7-4B89-A69F-33885D3F77FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B75734F7-F3D7-4B89-A69F-33885D3F77FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B75734F7-F3D7-4B89-A69F-33885D3F77FF}.Release|x86.ActiveCfg = Release|x86
+		{B75734F7-F3D7-4B89-A69F-33885D3F77FF}.Release|x86.Build.0 = Release|x86
+		{B571AEAC-DC88-430A-8126-069967EB5685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B571AEAC-DC88-430A-8126-069967EB5685}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B571AEAC-DC88-430A-8126-069967EB5685}.Debug|x86.ActiveCfg = Debug|x86
+		{B571AEAC-DC88-430A-8126-069967EB5685}.Debug|x86.Build.0 = Debug|x86
+		{B571AEAC-DC88-430A-8126-069967EB5685}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B571AEAC-DC88-430A-8126-069967EB5685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B571AEAC-DC88-430A-8126-069967EB5685}.Release|x86.ActiveCfg = Release|x86
+		{B571AEAC-DC88-430A-8126-069967EB5685}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		VisualSVNWorkingCopyRoot = 
+		SolutionGuid = {DB3BD863-334F-4A0F-AB26-F1C8F861513A}
+	EndGlobalSection
+EndGlobal

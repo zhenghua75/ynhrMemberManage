@@ -1,0 +1,661 @@
+
+In this article Matthew shows us how to build a print engine in C# allowing us to print our application data easily.Editor's Note: This article's code has been updated to work with the final release of the .Net framework.
+
+Those of you who have done any programming with the Win32 API will be familiar with the concept of the Device Context, also known as the "DC". A Device Context allows a developer to draw things like text, lines, rectangles, curves, etc. on both the screen and the printer, or even in memory in preparation for later drawing to either of these devices. This was a pretty powerful arrangement that allowed a developer who knew how to draw application output on the screen to draw application output on a printer.
+
+With .NET, we're given a variety of graphics classes that eventually allow drawing of certain graphics primitives onto device contexts. This article describes how we can build an application that is capable of printing its output on a printer installed on the computer, allow the adjustment of page and printer settings and also provide a print preview. Part of the difficulty of printing from an application is that we lose the concept of using controls to present our program's output to the user. To clarify, with a VB.NET or C# application, if we're building a UI we usually do so by painting controls on the screen and allowing whoever developed them to worry about the whys and wherefores about how that control should look. We don't really care how many individual DrawLine calls it takes to draw a button on the screen.
+
+With printing, you lose this control-oriented abstraction and you have to get back to worry about where to draw lines, selecting fonts, drawing text and so on. This makes life difficult for developers maintaining and enhancing the application.
+
+Imagine you have an application that prints simple reports and in this application you have a class called Customer that represents a customer. As part of the report, you want to print all of the customer's details. What the developer wants is a really easy to use framework where she can just say, "Now print the customer's name" or "Print the URL of the customer's home page". She doesn't want to have to worry about where exactly on the page to position the text, or which font to use, just like as a UI developer using controls you don't care about how to find out the default color for the button.
+
+In this article we're going to build a fairly powerful printing framework that can be easily enhanced at a later date. We're going to provide the developer with such elements as print previews, printer settings and we're also going to take over all the hard work of pagination, adding headers and footers and so on. (For the uninitiated, "pagination" is the process of splitting up a document into pages and laying out each page so that it matches the layout that the user intended.)
+
+Objects, Elements and Primitives
+
+Let's assume that our application has access to objects that describe things, such as Customer, Company, Order and Product. Let's also assume that our reports are going to be fairly simple lists of these object, e.g. "Give me a list of all customers who have ordered from me today."
+
+Our report might look like this:
+
+Screenshot
+
+
+One way to break up this task is to say that we're going to build a page up of different "elements". In the above screenshot, we have three elements:
+
+Screenshot
+
+
+The elements we have, "Header", "Customer" and "Footer", are all comprised of different "primitives." In this case, we have two kinds of primitives: "text" and "horizontal rule".
+
+So, to build up our application we first of all need an object that describes the print functionality. We'll call this PrintEngine and this object will be responsible for laying out the elements on the page and choosing when new pages need to be added to the report. Each element will be represented by a PrintElement object. This PrintElement object will know how to contain primitives, specifically PrintPrimitiveText and PrintPrimitiveRule objects.
+
+It will be these objects that know how to draw themselves on the page and report back to PrintEngine as to their size. (In order for PrintEngine to lay out the elements, it needs to know how large each element is. To determine an elements size, the primitives have to be able to report on their size.)
+
+Now that we know what we're trying to achieve, let's look at building an application capable of printing. We'll build the printing components of this application in such a way that we could extract them and reuse them in another project.
+Create a new Visual C# - Windows Application project now and call it Printing. Add these controls to Form1:
+
+Screenshot
+
+
+Here are the controls:
+
+    * trackCustomers - this slider bar should have a minimum value of 0 and a maximum value of 128. Set Value to 1.
+    * cmdPrintPreview - the print preview button.
+    * cmdPageSettings - the page settings button.
+    * cmdPrint - the print button.
+
+That's all there is to the form. Let's now look at building the rest of the classes.
+
+"PrintEngine"
+
+The Framework provides a class called PrintDocument that encapsulates everything related to printing. Those of you who have used MFC, don't worry too much about the word "document". There's nothing related to the "document/view" model you might be thinking of. The "document" is simply something that you want to print.
+
+To use this class you have two options: either respond to events fired by the class or inherit from the class and build upon the functionality. In this instance, we're going to inherit from it. Create a new class called PrintEngine and add these:
+
+using statements:
+using System;
+using System.Collections;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Windows.Forms;
+
+Next, derive PrintEngine from PrintDocument:
+
+  public class PrintEngine : PrintDocument
+
+This project is a little "chicken and egg", so we'll be jumping between classes as we try and build up the example. Perhaps the best place to start is maintaining a list of the objects that we want to include on the report.
+
+As we build the report, we'll add Customer objects to an ArrayList maintained in PrintEngine. Whenever we want to print the report, or display a preview, we'll use methods to add objects that understand how to print themselves to this ArrayList.
+
+Add this member to PrintEngine:
+
+  public class PrintEngine : PrintDocument
+  {
+    private ArrayList _printObjects = new ArrayList();
+
+In a moment, we'll build an interface called IPrintable that an object must support if it wants to be printed by PrintEngine. Add this method to PrintEngine that accepts an object supporting this interface and adds it to _printObjects:
+
+    // AddPrintObject - add a print object the document...
+    public void AddPrintObject(IPrintable printObject)
+    {
+      _printObjects.Add(printObject);
+    }
+
+Now, create a new class called IPrintable and add this code:
+
+using System;
+
+namespace Printing
+{
+  public interface IPrintable
+  {
+    // Print
+    void Print(PrintElement element);
+  }
+}
+
+As you can see, our interface only has a single method: Print. You'll also notice that it takes a parameter of PrintElement type. We haven't built that yet, but it will represent a single instance of an element on a page. Bear with me until we get to it!
+
+To complete this circle, create a new object called Customer. Add these members:
+
+  public class Customer : IPrintable
+  {
+    // members...
+    public int Id;
+    public String FirstName;
+    public String LastName;
+    public String Company;
+    public String Email;
+    public String Phone;
+  }
+
+As we've told Customer that it must support IPrintable, we need to implement the method. However, we won't build any print functionality in just yet. Add this method to Customer:
+
+    // Print...
+    public void Print(PrintElement element)
+    {
+    }
+
+OK, so we're now at a point where we can create instances of a class called Customer that, because it implements IPrintable, we can use PrintEngine.AddPrintObject to add it to the final document. Let's look now at building up the primitives and then take a look at implementing the elements themselves. We're only going to implement two kinds of primitives in this exercise: one that prints text, and one that prints a horizontal line. This will let us build up a basic report.
+
+A primitive has to be able to do two things. It must be able to determine how much space it will take up on the page and it must be able to draw itself on whatever graphics context we've been given. This will either be on the printer, or alternatively will be on the screen for a print preview - although we won't actually care which is being used when we're asked to draw ourselves.
+
+Our two primitive classes will both implement IPrintPrimitive. This new interface will define the two methods used to measure and draw the primitives. Create a new class called IPrintPrimitive and add this code:
+
+using System;
+using System.Drawing;
+
+namespace Printing
+{
+  public interface IPrintPrimitive
+  {
+    // CalculateHeight - work out how tall the primitive is...
+    float CalculateHeight(PrintEngine engine, Graphics graphics);
+
+    // Print - tell the primitive to physically draw itself...
+    void Draw(PrintEngine engine, float yPos, Graphics graphics, Rectangle elementBounds);
+  }
+}
+
+Let's take a look at PrintPrimitiveRule, the class responsible for drawing a horizontal rule. Create a new class called PrintPrimitiveRule and set the class to implement IPrintPrimitive:
+
+  public class PrintPrimitiveRule : IPrintPrimitive
+
+This primitive is always going to be five drawing units high, so add this method that will tell anyone who asks that we're five units high:
+
+    // CalculateHeight - work out how tall the primitive is...
+    public float CalculateHeight(PrintEngine engine, Graphics graphics)
+    {
+      // we're always five units tall...
+      return 5;
+    }
+
+When we come to draw the primitive, we're going to provide it with details of the position on the page where it should draw itself. elementBounds describes a rectangle that encloses the entire element. yPos describes the current y-coordinate that should be used for drawing. These two in combination tell the primitive where to draw itself, which it can do by using methods on the supplied System.Drawing.Graphics object.
+
+Add this method to PrintPrimitiveRule that will draw a line two drawing units down from where the primitive is supposed to start:
+
+    // Print - draw the rule...
+    public void Draw(PrintEngine engine, float yPos, Graphics graphics, Rectangle elementBounds)
+    {
+      // draw a line...
+      Pen pen = new Pen(engine.PrintBrush, 1);
+      graphics.DrawLine(pen, elementBounds.Left, yPos + 2,
+                    elementBounds.Right, yPos + 2);
+    }
+
+The PrintPrimitiveText is very similar. Create the new class now and add the same namespace declarations as before:
+
+using System;
+using System.Drawing;
+
+Then, tell the class to inherit IPrintPrimitive:
+
+  public class PrintPrimitiveText : IPrintPrimitive
+
+The class will also need a String member that contains the text that need to be printed. We'll change the constructor of the class so that we need to supply the text whenever we create one of the objects:
+
+    // members...
+    public String Text;
+
+    public PrintPrimitiveText(String buf)
+    {
+      Text = buf;
+    }
+
+In a short while we'll add a member to PrintEngine called PrintFont. This will contain a reference to a System.Drawing.Font object that will be used to draw text on the report. We can use the Font object to measure the height of the primitive, although we're going to assume that a single primitive cannot span more than one line:
+
+    // CalculateHeight - work out how tall the primitive is...
+    public float CalculateHeight(PrintEngine engine, Graphics graphics)
+    {
+      // return the height...
+      return engine.PrintFont.GetHeight(graphics);
+    }
+
+In a similar manner to drawing the line, we can use the Graphics object to draw the text:
+
+    // Print - draw the text...
+    public void Draw(PrintEngine engine, float yPos, Graphics graphics, Rectangle elementBounds)
+    {
+      // draw it...
+      graphics.DrawString(engine.ReplaceTokens(Text), engine.PrintFont,
+      engine.PrintBrush, elementBounds.Left, yPos, new StringFormat());
+    }
+
+The PrintEngine.ReplaceTokens will be used to change the value of special fields that we can place in the text. This will let us create a header that automatically contains the page number, and we could extend this to include things like the current date time, user, computer name and so on. We'll seem them in action later on.
+
+This brings us to the end of building the two primitives, so let's now look at the relationship between PrintElement and classes implementing IPrintPrimitive.
+
+Building "PageElement"
+
+The PrintElement class describes an element that has to be rendered on the report. Simply, it's a list of primitives together with a collection of method that makes life easier for PrintEngine and for the other classes like Customer.
+
+Create a new class called PrintElement and add these using statements:
+
+using System;
+using System.Collections;
+using System.Drawing;
+using System.Drawing.Printing;
+
+We'll need a member for holding a list of primitives, and also a member for holding a reference to an object supporting IPrintable:
+
+  public class PrintElement
+  {
+    // members...
+    private ArrayList _printPrimitives = new ArrayList();
+    private IPrintable _printObject;
+
+    public PrintElement(IPrintable printObject)
+    {
+      _printObject = printObject;
+    }
+
+When we want to print the element (i.e. we want to create a list of primitives that we can then ask each of them to draw themselves on the screen or printer) we'll call a method called Print. This will simply call through _printObject to whatever object is underneath it, in this case Customer.
+
+When Customer is asked to print it will call methods like PrintElement.AddText and PrintElement.AddHeader. Let's look at the first of these now:
+
+    // AddText - add text to the element...
+    public void AddText(String buf)
+    {
+      // add the text...
+      AddPrimitive(new PrintPrimitiveText(buf));
+    }
+
+The AddPrimitive simply adds an object supporting IPrintPrimitive to the _printPrimitives list. We'll define this as a public method so that if anyone wants to build more objects that support IPrintPrimitive, or inherit from objects that already do, they'll be able to extend the framework.
+
+    // AddPrimitive - add a primitive to the list...
+    public void AddPrimitive(IPrintPrimitive primitive)
+    {
+      // add it...
+      _printPrimitives.Add(primitive);
+    }
+
+Here are some more methods that let the developer build up the primitives that make up the element:
+
+    // AddData - add data to the element...
+    public void AddData(String dataName, String dataValue)
+    {
+      // add this data to the collection...
+      AddText(dataName + ": " + dataValue);
+    }
+
+    // AddHorizontalRule - add a rule to the element...
+    public void AddHorizontalRule()
+    {
+      // add a rule object...
+      AddPrimitive(new PrintPrimitiveRule());
+    }
+
+    // AddBlankLine - add a blank line...
+    public void AddBlankLine()
+    {
+      // add a blank line...
+      AddText("");
+    }
+
+    // AddHeader - add a header...
+    public void AddHeader(String buf)
+    {
+      AddText(buf);
+      AddHorizontalRule();
+    }
+
+The PrintEngine is going to need to efficiently calculate the height of the element. It will do this through a call to CalculateHeight and this method simply aggregates the results for calling CalculateHeight on each of the primitives.
+
+    public float CalculateHeight(PrintEngine engine, Graphics graphics)
+    {
+      // loop through the print height...
+      float height = 0;
+      foreach(IPrintPrimitive primitive in _printPrimitives)
+      {
+        // get the height...
+        height += primitive.CalculateHeight(engine, graphics);
+      }
+
+      // return the height...
+      return height;
+    }
+
+Finally, the element is going to need to draw itself. This is just a case of iterating through the primitives and asking each one to draw themselves. As part of this job, the element needs to calculate a rectangle that bounds the element.
+
+When we call PrintElement.Draw we'll provide a rectangle that describes the area of the page that can be printed on, saving for the space required for the header and the footer.
+
+As we mentioned, yPos describes the top y-coordinate of where drawing should be done. As we move through each primitive, we move yPos down to the bottom of the last primitive we drew. (We're not going to allow primitives to overlap, but there's no reason why you couldn't add this functionality to your own implementation.) PrintEngine is going to handle the pagination, so we don't need to worry about whether or not we can fit the element onto the page.
+
+    // Draw - draw the element on a graphics object...
+    public void Draw(PrintEngine engine, float yPos, Graphics graphics, Rectangle pageBounds)
+    {
+      // where...
+      float height = CalculateHeight(engine, graphics);
+      Rectangle elementBounds = new Rectangle(pageBounds.Left, (int)yPos, pageBounds.Right - pageBounds.Left, (int)height);
+
+      // now, tell the primitives to print themselves...
+      foreach(IPrintPrimitive primitive in _printPrimitives)
+      {
+        // render it...
+        primitive.Draw(engine, yPos, graphics, elementBounds);
+
+        // move to the next line...
+        yPos += primitive.CalculateHeight(engine, graphics);
+      }
+    }
+
+To round of this section, let's see how we can change Customer so that the primitives are created.
+
+Printing Customer Details
+
+Go back to Customer.cs and add this code to Print:
+
+    // Print...
+    public void Print(PrintElement element)
+    {
+      // tell the engine to draw a header...
+      element.AddHeader("Customer");
+
+      // now, draw the data...
+      element.AddData("Customer ID", Id.ToString());
+      element.AddData("Name", FirstName + " " + LastName);
+      element.AddData("Company", Company);
+      element.AddData("E-mail", Email);
+      element.AddData("Phone", Phone);
+
+      // finally, add a blank line...
+      element.AddBlankLine();
+    }
+
+As you can see, the work that the developer has to do to get an object to support printing in a report is pretty minimal. She never has to worry about things like pagination, fonts or layout. Instead, she just called methods on PrintElement that add primitives to the page. Now we're at a point where we have an object called Customer that can describe itself on a report by calling methods on an object called PrintElement. Now all we have to do is arrange the elements on the page, handle pagination, deal with headers and footers, provide print preview functionality and actually send the data to the printer. Thanks to the work that's been done with the Framework, this is perhaps the easiest part of the exercise.
+
+More Members
+
+We're going to need to add more members to the PrintEngine class:
+
+  public class PrintEngine : PrintDocument
+  {
+    // members...
+    private ArrayList _printObjects = new ArrayList();
+    public Font PrintFont = new Font("Arial", 10);
+    public Brush PrintBrush = Brushes.Black;
+    public PrintElement Header;
+    public PrintElement Footer;
+    private ArrayList _printElements;
+    private int _printIndex = 0;
+    private int _pageNum = 0;
+
+The PrintFont and PrintBrush will be used to define the font and brush that will be used to do the printing. In this case, we're saying that we want to use a ten point Arial font, in black.
+
+The Header and Footer describe elements that contain the header and footer for each page. _printElements describes a list of all the elements, except Header and Footer. _printIndex keeps track of the current position in the _printElements list. Finally, _pageNum keeps track of the current page number.
+
+The first thing to do before we try to print is build up the header and footer elements. We'll create default ones in the constructor:
+
+    public PrintEngine()
+    {
+      // create the header...
+      Header = new PrintElement(null);
+      Header.AddText("Report");
+      Header.AddText("Page: [pagenum]");
+      Header.AddHorizontalRule();
+      Header.AddBlankLine();
+
+      // create the footer...
+      Footer = new PrintElement(null);
+      Footer.AddBlankLine();
+      Footer.AddHorizontalRule();
+      Footer.AddText("Confidential");
+    }
+
+The easiest way to develop printing routines is to get the print preview working. This saves a lot of otherwise wasted paper! Luckily for us, the Framework provides a class that containerizes an instance of PrintPreviewControl. Add this method to PrintEngine:
+
+    // ShowPreview - show a print preview...
+    public void ShowPreview()
+    {
+      // now, show the print dialog...
+      PrintPreviewDialog dialog = new PrintPreviewDialog();
+      dialog.Document = this;
+
+      // show the dialog...
+      dialog.ShowDialog();
+    }
+
+As you can see, PrintPreviewDialog needs to be given a PrintDocument object, so we give it a reference to the PrintEngine object that was used. We then call ShowDialog.
+
+The printing routines have a fairly curious way of working, which I mentioned right at the beginning involved firing events to signal when a page needs to be printed. The first event that gets fired is BeginPrint, but as PrintEngine is inherited from PrintDocument the best way to get at this is to override OnBeginPrint. This is, I'm told, similar to the way that the printing routines in MFC worked.
+
+What we need to do in response to this event is create a new list of PrintElement objects - one for each of the objects we have in our _printObjects list. Add this code to PrintEngine:
+
+    // OnBeginPrint - called when printing starts
+    protected override void OnBeginPrint(PrintEventArgs e)
+    {
+      // reset...
+      _printElements = new ArrayList();
+      _pageNum = 0;
+      _printIndex = 0;
+
+      // go through the objects in the list and create print elements for each one...
+      foreach(IPrintable printObject in _printObjects)
+      {
+        // create an element...
+        PrintElement element = new PrintElement(printObject);
+        _printElements.Add(element);
+
+        // tell it to print...
+        element.Print();
+      }
+    }
+
+As we work through the list we create a new PrintElement object for each IPrintable -supporting object that we have. We then ask each element to print itself through the Print method. At this time, the element will call into IPrintable.Print and the underlying class will tall the various AddText, AddHeader, AddHorizontalRule methods to build up the primitives.
+
+Once we've done that, we can turn our attention to the printing mechanism. This is done through OnPrintPage. Add this code:
+
+    // OnPrintPage - called when printing needs to be done...
+    protected override void OnPrintPage(PrintPageEventArgs e)
+    {
+      // adjust the page number...
+      _pageNum++;
+
+The first thing we do is increment the page number. In OnBeginPrint we set this to 0, meaning that on the first page it will be 1. We then want to draw the header element. This will always appear in the top-left hand corner of each page.
+
+The PrintPageEventArgs contains members that tell us everything we need to know about printing. MarginBounds describes a rectangle containing the printable area of the page. Graphics contains a System.Graphics.Drawing object that contains the methods necessary for drawing on the screen or printer. We pass both of these into the header element:
+
+      // now, render the header element...
+      float headerHeight = Header.CalculateHeight(this, e.Graphics);
+      Header.Draw(this, e.MarginBounds.Top, e.Graphics, e.MarginBounds);
+Drawing the footer is a similar deal, except this has to appear at the bottom of the page:
+      // also, we need to calculate the footer height...
+      float footerHeight = Footer.CalculateHeight(this, e.Graphics);
+      Footer.Draw(this, e.MarginBounds.Bottom - footerHeight, e.Graphics, e.MarginBounds);
+
+Once we've done that, we need to calculate the area of the page that's left. This will contain the elements, or rather as many elements as will fit onto the page.
+
+      // now we know the header and footer, we can adjust the page bounds...
+      Rectangle pageBounds = new Rectangle(e.MarginBounds.Left,
+  (int)(e.MarginBounds.Top + headerHeight), e.MarginBounds.Width,
+    (int)(e.MarginBounds.Height - footerHeight - headerHeight));
+      float yPos = pageBounds.Top;
+
+Right at the end there we define and set yPos to be the top of the printable area given over to elements. We'll see how this moves down the page as we draw elements.
+
+The _printIndex keeps track of which element has to be drawn next. In OnBeginPage we set this to 0 meaning that the next element we draw will be the first one in _printElements. To loop through the elements, we need to do this:
+
+      // ok, now we need to loop through the elements...
+      bool morePages = false;
+      int elementsOnPage = 0;
+      while(_printIndex < _printElements.Count)
+      {
+        // get the element...
+        PrintElement element = (PrintElement)_printElements[_printIndex];
+
+Once we have the element, we need to find its height. Taking into consideration the current position of yPos, we want to make sure that the element will fit on the page:
+
+        // how tall is the primitive?
+        float height = element.CalculateHeight(this, e.Graphics);
+
+        // will it fit on the page?
+        if(yPos + height > pageBounds.Bottom)
+        {
+  // we don't want to do this if we're the first thing on the page...
+          if(elementsOnPage != 0)
+          {
+            morePages = true;
+            break;
+          }
+        }
+
+If the element will not fit on the page, we quit the loop - and we'll see why in a moment. One important thing to note here is that if this is the first element on the page (i.e. elementsOnPage = 0), we never want to leave the loop. If it's the first element and it's the first page, it's too big to fit on any page. Rather than breaking the element up, we'll just render it as it is, meaning that the bottom of the element will draw over the footer.
+
+Providing the element will fit, we can tell the element to draw itself, move yPos down to the position of the next element and adjust printIndex so that it points to the next element in the list:
+
+        // now draw the element...
+        element.Draw(this, yPos, e.Graphics, pageBounds);
+
+        // move the ypos...
+        yPos += height;
+
+        // next...
+        _printIndex++;
+        elementsOnPage++;
+      }
+
+So what happens if we have more pages? Well, we have to set PrintPageEventArgs.HasMorePages to true. This will result on OnPrintPage being called a second time, in which case we go round the whole thing again:
+
+      // do we have more pages?
+      e.HasMorePages = morePages;
+    }
+
+Replacing Tokens
+
+When we built our header element we added a line like this:
+
+      Header.AddText("Page: [pagenum]");
+
+The [pagenum] represents a token that we want to replace at print time with a value of some kind, in this case the current page number. When we created the PrintPrimitiveText class, we had this calling into PrintEngine.ReplaceTokens before the text was sent to the printer. Add this method to PrintEngine:
+
+    // ReplaceTokens - take a string and remove any tokens replacing them with values...
+    public String ReplaceTokens(String buf)
+    {
+      // replace...
+      buf = buf.Replace("[pagenum]", _pageNum.ToString());
+
+      // return...
+      return buf;
+    }
+
+Although we've just shown how to replace [pagenum] here, the same will work with other tokens that you define.
+
+Calling "ShowPrintPreview"
+
+To call ShowPrintPreview, we actually need something to print. Add this member to Form1:
+
+  public class Form1 : System.Windows.Forms.Form
+  {
+    // members...
+    PrintEngine _engine = new PrintEngine();
+
+In response to changing the slider value, we want to add Customer objects to _engine. Add this line to Form1 's constructor:
+
+    public Form1()
+    {
+      //
+      // Required for Windows Form Designer support
+      //
+      InitializeComponent();
+
+      // create a default print engine...
+      CreateEngine(1);
+    }
+Now, add this definition for CreateEngine:
+    // CreateEngine - create a print engine and populate it with customers...
+    public void CreateEngine(int numCustomers)
+    {
+      // create a new engine...
+      _engine = new PrintEngine();
+
+      // loop through the customers...
+      for(int n = 0; n < numCustomers; n++)
+      {
+        // create the customer...
+        Customer theCustomer = new Customer();
+        theCustomer.Id = n + 1;
+        theCustomer.FirstName = "Darren";
+        theCustomer.LastName = "Clarke";
+        theCustomer.Company = "Madras inc.";
+        theCustomer.Email = "darren@pretendcompany.com";
+        theCustomer.Phone = "602 555 1234";
+
+        // add the customer to the list...
+        _engine.AddPrintObject(theCustomer);
+      }
+    }
+
+There's nothing very complicated about this. All we want to do is create Customer objects and add them to the engine.
+
+Next, add this event handler to make calls to CreateEngine whenever the user changes the slider value:
+
+    private void trackCustomers_Scroll(object sender, System.EventArgs e)
+    {
+      CreateEngine(trackCustomers.Value);
+    }
+
+Finally, we can wire up cmdPrintPreview_click:
+
+    private void cmdPrintPreview_Click(object sender, System.EventArgs e)
+    {
+      // tell the print object to display a preview...
+      _engine.ShowPreview();
+    }
+
+Now we can try running the application and testing the print preview. Leave the slider where it is and click the button. You should see something like this:
+
+Screenshot
+
+
+Zooming in, you should see this:
+
+Screenshot
+
+
+Now, close the print preview and change the slider to about a third of the way along. This will create a bundle of Customer objects and you should see more pages on the preview.
+
+Screenshot
+
+
+That's the basics of printing illustrated. You can actually print the document if you want by clicking the printer button on the toolbar. When printing, you might want to change some of the page settings. You might want to use a different page size or a landscape orientation.
+
+The Framework provides a class that lets you change the layout of the page. The PrintDocument class has a property called DefaultPageSettings. This contains the current settings for the page, and when the object is created this is populated with the default page settings for the default printer.
+
+Add this method to PrintEngine:
+
+    // ShowPageSettings - let's us change the page settings...
+    public void ShowPageSettings()
+    {
+      PageSetupDialog setup = new PageSetupDialog();
+      PageSettings settings = DefaultPageSettings;
+      setup.PageSettings = settings;
+
+      // display the dialog and,
+      if(setup.ShowDialog() == DialogResult.OK)
+        DefaultPageSettings = setup.PageSettings;
+    }
+
+This method will take the current page settings from the dialog and invite the user to change them. If the user presses OK on the dialog, the changes settings are saved.
+
+Add this event handler to Form1 to finish this off:
+
+    private void cmdPageSettings_Click(object sender, System.EventArgs e)
+    {
+      // show the page settings...
+      _engine.ShowPageSettings();
+    }
+
+If you try this, remember that if you change the slider you'll lose the page settings. (i.e. if you start the application check the print preview, close it down, change the page settings, change the slider and then view the print preview, the page settings will not be saved as a new instance of PrintEngine would have been created.) You should see something like this:
+
+Screenshot
+
+
+Printing Without the Preview
+
+To print to another printer, you have to use the standard print dialog. We can bring this up in much the same way, so add this method to PrintEngine:
+
+    // ShowPrintDialog - display the print dialog...
+    public void ShowPrintDialog()
+    {
+      // create and show...
+      PrintDialog dialog = new PrintDialog();
+      dialog.PrinterSettings = PrinterSettings;
+      dialog.Document = this;
+      if(dialog.ShowDialog() == DialogResult.OK)
+      {
+        // save the changes...
+        PrinterSettings = dialog.PrinterSettings;
+
+        // do the printing...
+        Print();
+      }
+    }
+
+Again, if the user clicks OK we save the settings, but this time we also call Print to print directly to the configured printer. Add this event handler to Form1 to finish this off:
+
+    private void cmdPrint_Click(object sender, System.EventArgs e)
+    {
+      // print...
+      _engine.ShowPrintDialog();
+    } In this exercise we built a fairly complete example of how to build a C# desktop application with print capabilities. We architected the solution using a flexible combination of elements and primitives meaning that developers wishing to extend the printing functionality down the line would be able to do so easily.
+DISCLAIMER: The content provided in this article is not warranted or guaranteed by Developer Shed, Inc. The content provided is intended for entertainment and/or educational purposes in order to introduce to the reader key ideas, concepts, and/or product reviews. As such it is incumbent upon the reader to employ real-world tactics for security and implementation of best practices. We are not liable for any negative consequences that may result from implementing any information covered in our articles or tutorials. If this is a hardware review, it is not recommended to open and/or modify your hardware.

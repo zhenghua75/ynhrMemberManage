@@ -1,0 +1,835 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CC6190D2-4436-4767-9B1A-700F3A6278AC}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>MemberManage</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>MemberManage</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <OldToolsVersion>2.0</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <Optimize>true</Optimize>
+    <DebugType>
+    </DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleAssemblies>C:\Program Files (x86)\Microsoft Visual Studio 8\Team Tools\Static Analysis Tools\FxCop\\rules</CodeAnalysisRuleAssemblies>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Gedee">
+      <Name>Gedee</Name>
+      <HintPath>Resources\Gedee.dll</HintPath>
+    </Reference>
+    <Reference Include="Infragistics2.Excel.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Shared.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.AppStylistSupport.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.Misc.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinDataSource.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinDock.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinEditors.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinExplorerBar.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinGauge.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinGrid.ExcelExport.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinGrid.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinListBar.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinListView.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinPrintPreviewDialog.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinSchedule.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinStatusBar.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinTabbedMdi.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinTabControl.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinToolbars.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.UltraWinTree.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Infragistics2.Win.v7.1, Version=7.1.20071.40, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Security, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Security.Cache.CachingStore, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Security.Cryptography, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualBasic">
+      <Name>Microsoft.VisualBasic</Name>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap">
+      <Name>System.Runtime.Serialization.Formatters.Soap</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="UserData">
+      <Name>UserData</Name>
+      <HintPath>Resources\UserData.dll</HintPath>
+    </Reference>
+    <ProjectReference Include="..\BusinessFacade\BusinessFacade.csproj">
+      <Project>{E1BD2AEE-A2F7-4B43-8564-351EB235F798}</Project>
+      <Name>BusinessFacade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardCommon\CardCommon.csproj">
+      <Name>CardCommon</Name>
+      <Project>{51EC3AF0-388C-4682-8F31-7406A662233B}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{240C5557-9514-4F40-8D2E-731EEB60357B}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{6DF7F126-688D-426F-B564-1ECD1AD62947}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ORM\ORM.csproj">
+      <Name>ORM</Name>
+      <Project>{B75734F7-F3D7-4B89-A69F-33885D3F77FF}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Print\Print.csproj">
+      <Project>{A2F2FCD3-64AB-4B6A-AA2D-DD11EF4BFE22}</Project>
+      <Name>Print</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Security\Security.csproj">
+      <Project>{5A037009-B6CA-42F7-952D-24CBA024336D}</Project>
+      <Name>Security</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Business\help.chm" />
+    <None Include="help.chm" />
+    <None Include="Resources\EntityBuildClass.cst" />
+    <EmbeddedResource Include="Business\SalesManage.resx">
+      <DependentUpon>SalesManage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\DataRightManage.resx">
+      <DependentUpon>DataRightManage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\ManageNT77.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ManageNT77.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Template_Office2007.isl" />
+    <EmbeddedResource Include="App.ico" />
+    <EmbeddedResource Include="Business\AddPrepay.resx">
+      <DependentUpon>AddPrepay.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\BillRepeat.resx">
+      <DependentUpon>BillRepeat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\CardType.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CardType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\DeptManage.resx">
+      <DependentUpon>DeptManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\FMemberCardProvide.resx">
+      <DependentUpon>FMemberCardProvide.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\FMemberFileModify.resx">
+      <DependentUpon>FMemberFileModify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\InMoneySetting.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>InMoneySetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\JobAdd.resx">
+      <DependentUpon>JobAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\JobEnd.resx">
+      <DependentUpon>JobEnd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\JobModify.resx">
+      <DependentUpon>JobModify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\JobQuery.resx">
+      <DependentUpon>JobQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberCardAddCard.resx">
+      <DependentUpon>MemberCardAddCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberCardAddCardNewCard.resx">
+      <DependentUpon>MemberCardAddCardNewCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberCardInlose.resx">
+      <DependentUpon>MemberCardInlose.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberCardInMoney.resx">
+      <DependentUpon>MemberCardInMoney.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberCardInUser.resx">
+      <DependentUpon>MemberCardInUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberCardProvide.resx">
+      <DependentUpon>MemberCardProvide.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberCardRenew.resx">
+      <DependentUpon>MemberCardRenew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberFileModify.resx">
+      <DependentUpon>MemberFileModify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberFileQuery.resx">
+      <DependentUpon>MemberFileQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberFreeModify.resx">
+      <DependentUpon>MemberFreeModify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\MemberSetting.resx">
+      <DependentUpon>MemberSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\NDeptManage.resx">
+      <DependentUpon>NDeptManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\NoCardDelete.resx">
+      <DependentUpon>NoCardDelete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\OperManage.resx">
+      <DependentUpon>OperManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\OperPwdModify.resx">
+      <DependentUpon>OperPwdModify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ParaSetting.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ParaSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ProductRegister.resx">
+      <DependentUpon>ProductRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ReturnPrepay.resx">
+      <DependentUpon>ReturnPrepay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\RightManage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>RightManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ShowBooking.resx">
+      <DependentUpon>ShowBooking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ShowBookSetting.resx">
+      <DependentUpon>ShowBookSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ShowPlan.resx">
+      <DependentUpon>ShowPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ShowPlan2.resx">
+      <DependentUpon>ShowPlan2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ShowPlan3.resx">
+      <DependentUpon>ShowPlan3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ShowRemain.resx">
+      <DependentUpon>ShowRemain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ShowSignIn.resx">
+      <DependentUpon>ShowSignIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\UseProduct.resx">
+      <DependentUpon>UseProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Business\ProductSetting.resx">
+      <DependentUpon>ProductSetting.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsumeBusiness\AddPrepay.resx">
+      <DependentUpon>AddPrepay.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsumeBusiness\ShowBooking.resx">
+      <DependentUpon>ShowBooking.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsumeBusiness\ShowSignIn.resx">
+      <DependentUpon>ShowSignIn.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsumeBusiness\UseProduct.resx">
+      <DependentUpon>UseProduct.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBase.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="licenses.licx" />
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\FMemberCardProvide.resx">
+      <DependentUpon>FMemberCardProvide.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\FMemberFileModify.resx">
+      <DependentUpon>FMemberFileModify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\JobAdd.resx">
+      <DependentUpon>JobAdd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\JobEnd.resx">
+      <DependentUpon>JobEnd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\JobModify.resx">
+      <DependentUpon>JobModify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\JobQuery.resx">
+      <DependentUpon>JobQuery.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\MemberCardAddCard.resx">
+      <DependentUpon>MemberCardAddCard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\MemberCardInlose.resx">
+      <DependentUpon>MemberCardInlose.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\MemberCardInMoney.resx">
+      <DependentUpon>MemberCardInMoney.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\MemberCardInUser.resx">
+      <DependentUpon>MemberCardInUser.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\MemberCardProvide.resx">
+      <DependentUpon>MemberCardProvide.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\MemberCardRenew.resx">
+      <DependentUpon>MemberCardRenew.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\MemberFileModify.resx">
+      <DependentUpon>MemberFileModify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\MemberFreeModify.resx">
+      <DependentUpon>MemberFreeModify.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\MemberSetting.resx">
+      <DependentUpon>MemberSetting.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\NoCardDelete.resx">
+      <DependentUpon>NoCardDelete.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\ShowPlan.resx">
+      <DependentUpon>ShowPlan.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberBusiness\ShowRemain.resx">
+      <DependentUpon>ShowRemain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberReport\AddPrepayReport.resx">
+      <DependentUpon>AddPrepayReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberReport\AllMoneyReport.resx">
+      <DependentUpon>AllMoneyReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberReport\BookingReport.resx">
+      <DependentUpon>BookingReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberReport\FMemberFileReport.resx">
+      <DependentUpon>FMemberFileReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberReport\InMoneyReport.resx">
+      <DependentUpon>InMoneyReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberReport\MemberFileQuery.resx">
+      <DependentUpon>MemberFileQuery.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberReport\OperLogReport.resx">
+      <DependentUpon>OperLogReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemberReport\ProductConsumeReport.resx">
+      <DependentUpon>ProductConsumeReport.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\AddPrepayReport.resx">
+      <DependentUpon>AddPrepayReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\AllMoneyReport.resx">
+      <DependentUpon>AllMoneyReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\BookingReport.resx">
+      <DependentUpon>BookingReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\CustomerServiceReport.resx">
+      <DependentUpon>CustomerServiceReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FMemberFileReport.resx">
+      <DependentUpon>FMemberFileReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\InMoneyReport.resx">
+      <DependentUpon>InMoneyReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\MemberReport.resx">
+      <DependentUpon>MemberReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\NoBookingReport.resx">
+      <DependentUpon>NoBookingReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\NoSignInReport.resx">
+      <DependentUpon>NoSignInReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\OperLogReport.resx">
+      <DependentUpon>OperLogReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProductConsumeReport.resx">
+      <DependentUpon>ProductConsumeReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProductReport.resx">
+      <DependentUpon>ProductReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RemainReport.resx">
+      <DependentUpon>RemainReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\SignInReport.resx">
+      <DependentUpon>SignInReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Logo.jpg" />
+    <EmbeddedResource Include="Resources\Template_Vista.isl" />
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Business\AddPrepay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\AddPrepay.Designer.cs">
+      <DependentUpon>AddPrepay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Business\BillRepeat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\CardType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\CardType.Designer.cs">
+      <DependentUpon>CardType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Business\ControlMove.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Business\DeptManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\FMemberCardProvide.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\FMemberFileModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\Helper.cs" />
+    <Compile Include="Business\InMoneySetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\InMoneySetting.Designer.cs">
+      <DependentUpon>InMoneySetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Business\JobAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\JobEnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\JobModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\JobQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberCardAddCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberCardAddCardNewCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberCardInlose.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberCardInMoney.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberCardInUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberCardProvide.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberCardRenew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberFileModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberFileQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberFreeModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\MemberSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\NDeptManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\NoCardDelete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\OperManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\OperPwdModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\ParaSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\ParaSetting.Designer.cs">
+      <DependentUpon>ParaSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Business\ProductRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\ReturnPrepay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\SalesManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\DataRightManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\DataRightManage.Designer.cs">
+      <DependentUpon>DataRightManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MemberBusiness\ManageNT77.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\ManageNT77.Designer.cs">
+      <DependentUpon>ManageNT77.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MemberBusiness\RightManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\RightManage.Designer.cs">
+      <DependentUpon>RightManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Business\ShowBooking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\ShowBookSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\ShowPlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\ShowPlan2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\ShowPlan3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\ShowRemain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\ShowSignIn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\test.Designer.cs">
+      <DependentUpon>test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Business\UseProduct.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Business\ProductSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsumeBusiness\AddPrepay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsumeBusiness\AddPrepay.Designer.cs">
+      <DependentUpon>AddPrepay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConsumeBusiness\ShowBooking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsumeBusiness\ShowSignIn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConsumeBusiness\UseProduct.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBase.Designer.cs">
+      <DependentUpon>frmBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\FMemberCardProvide.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\FMemberFileModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\JobAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\JobEnd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\JobModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\JobQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\MemberCardAddCard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\MemberCardInlose.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\MemberCardInMoney.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\MemberCardInUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\MemberCardProvide.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\MemberCardRenew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\MemberFileModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\MemberFreeModify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\MemberSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\NoCardDelete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\ShowPlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberBusiness\ShowRemain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberReport\AddPrepayReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberReport\AllMoneyReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberReport\BookingReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberReport\FMemberFileReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberReport\InMoneyReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberReport\MemberFileQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberReport\OperLogReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemberReport\ProductConsumeReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\AddPrepayReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\AllMoneyReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\BookingReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\CustomerServiceReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FMemberFileReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\InMoneyReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\MemberReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\NoBookingReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\NoSignInReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\OperLogReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ProductConsumeReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\ProductReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\Query.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reports\RemainReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\SignInReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Content Include="Resources\index2.php.htm" />
+    <Content Include="Resources\Print.txt" />
+    <Content Include="Resources\TextFile1.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

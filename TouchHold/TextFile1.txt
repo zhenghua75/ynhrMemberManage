@@ -1,0 +1,30 @@
+在Main中写：   
+  Form1   form   =   new   Form1();   
+  Application.Idle   +=   new   EventHandler(form.OnIdle);   
+  Application.AddMessageFilter(form);   
+  Application.Run(form);   
+    
+  OnIdle：没有其他消息的时候就开始计时   
+  private   void   OnIdle(object   o,System.EventArgs   e)   
+  {   
+  timer.Start();   
+  }   
+    
+  在PreFilterMessage中只写timer.Stop();就可以做到有消息就停止   
+    
+  然后timer.Tick   +=   new   System.EventHandler(this.timer_Tick);   
+    
+  把要执行的内容写在timer_Tick()函数中就可以了
+
+
+谢谢   fancyf(Fancyray)   ，基本上可以解决了：   
+  1、将MainForm及所用到的UserControl都实现IMessageFilter接口   
+  2、在Application.AddFilterMessage()方法中把MainForm和UserControl都加进来！   
+  3、在Application.OnIdle事件里进行计数;   
+  4、在PreFilterMessage()接口方法里当计数器停止   
+    
+  现在还有一些担心就是有一些最基本的消息会在PreFilterMessage()里捕获到，如   
+  m.Msg   =   275   ,   m.Msg   =   512   ,   m.Msg   =   15(这个好象是Timer控件的消息)   
+  目前还在测试，看有没有基本的情况会导致不正确的锁定！   
+    
+  Thanks   everyone!
