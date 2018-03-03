@@ -17,14 +17,12 @@ namespace ynhrMemberManage.CardCommon.CardRef
         private UInt16 tagtype = 0;
         private byte size = 0;
         private uint snr = 0;
-        private string stroldakey = "A3D4C68CD9E5";
-        private string stroldbkey = "B01B4C49A3D3";
-        private string strakey = "104A08866296";
-        private string strbkey = "103E08866296";
-        private string strbkey2 = "103E59441977";
-        private string strbkey3 = "103F5591EB08";
-        //private string strakey8 = "104A59442077";
-        //private string strbkey8 = "103E59442077";
+        private string stroldakey = "123456789012";
+        private string stroldbkey = "123456789012";
+        private string strakey = "123456789012";
+        private string strbkey = "123456789012";
+        private string strbkey2 = "123456789012";
+        private string strbkey3 = "123456789012";
 		public CardM1()
 		{
 			port=0;
@@ -172,32 +170,6 @@ namespace ynhrMemberManage.CardCommon.CardRef
             ret = ConstMsg.RFOK;
             return true;
         }
-
-        //private bool VerifyBKey8(out string ret)
-        //{
-        //    byte[] bkey1 = new byte[16];
-        //    byte[] bkey2 = new byte[6];
-        //    bkey1 = Encoding.ASCII.GetBytes(strbkey8);
-        //    RFDef.a_hex(bkey1, bkey2, 12);
-        //    st = RFDef.rf_load_key(icdev, 4, sec, bkey2);
-        //    if (st != 0)
-        //    {
-        //        quit();
-        //        ret = ConstMsg.RFLOADKEY_B_ERR;
-        //        return false;
-
-        //    }
-        //    st = RFDef.rf_authentication(icdev, 4, sec);
-        //    if (st != 0)
-        //    {
-        //        //验证失败只能从头再来
-        //        quit();
-        //        ret = ConstMsg.RFAUTHENTICATION_B_ERR;
-        //        return false;
-        //    }
-        //    ret = ConstMsg.RFOK;
-        //    return true;
-        //}
         
         private bool WriteCardNo(out string ret,string strCardID)
         {
@@ -238,28 +210,7 @@ namespace ynhrMemberManage.CardCommon.CardRef
             ret = ConstMsg.RFOK;
             return true;
         }
-
-        //private bool ChangePwd8(out string ret)
-        //{
-        //    //改密码
-        //    byte[] akey1 = new byte[16];
-        //    byte[] akey2 = new byte[6];
-        //    byte[] bkey1 = new byte[16];
-        //    byte[] bkey2 = new byte[6];
-        //    akey1 = Encoding.ASCII.GetBytes(strakey8);
-        //    bkey1 = Encoding.ASCII.GetBytes(strbkey8);
-        //    RFDef.a_hex(akey1, akey2, 12);
-        //    RFDef.a_hex(bkey1, bkey2, 12);
-        //    st = RFDef.rf_changeb3(icdev, sec, akey2, 3, 3, 3, 3, 0, bkey2);
-        //    if (st != 0)
-        //    {
-        //        quit();
-        //        ret = ConstMsg.RFCHANGEB3ERR;
-        //        return false;
-        //    }
-        //    ret = ConstMsg.RFOK;
-        //    return true;
-        //}
+        
 		#region 发卡
 		public string PutOutCard(string strCardID)
 		{
@@ -274,19 +225,6 @@ namespace ynhrMemberManage.CardCommon.CardRef
 			quit();
 			return ConstMsg.RFOK;
 		}
-        //public string PutOutCard8(string strCardID)
-        //{
-        //    string ret = "";
-        //    if (!FindCard(out ret)) return ret;
-
-        //    if (!VerifyOldAKey(out ret)) return ret;
-        //    if (!WriteCardNo(out ret, strCardID)) return ret;
-        //    if (!ChangePwd8(out ret)) return ret;
-        //    //蜂鸣
-        //    st = RFDef.rf_beep(icdev, 3);
-        //    quit();
-        //    return ConstMsg.RFOK;
-        //}
 		#endregion
 
 		#region 刷卡

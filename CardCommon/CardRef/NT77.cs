@@ -10,15 +10,11 @@ namespace CardCommon.CardRef
         public static bool Verify()
         {
             string strret="";
-            string strNTCode = System.Configuration.ConfigurationManager.AppSettings["RegisterCode"];//"ynhrMemberManage";
-            string strNTpassword = System.Configuration.ConfigurationManager.AppSettings["RegisterPwd"];// "e880ee65905ad1c3bb9e66a1a9dbe091";
-            //string strwrite = System.Configuration.ConfigurationManager.AppSettings["RegisterInfo"]; //"dx_ynrcsc";
-            // StringBuilder pBuffer = new StringBuilder(strwrite.Length);
-            if (!FindFirst(strNTCode, out strret)) return false;// throw new Exception(strret);
-            if (!Login(strNTpassword, out strret)) return false;//throw new Exception(strret);
-            //if (!Read(1, 9, pBuffer, out strret)) throw new Exception(strret);            
-            if (!Logout(out strret)) return false;//throw new Exception(strret);
-            //if (!pBuffer.ToString().Equals(strwrite)) return false;
+            string strNTCode = System.Configuration.ConfigurationManager.AppSettings["RegisterCode"];
+            string strNTpassword = System.Configuration.ConfigurationManager.AppSettings["RegisterPwd"];
+            if (!FindFirst(strNTCode, out strret)) return false;
+            if (!Login(strNTpassword, out strret)) return false;          
+            if (!Logout(out strret)) return false;
             return true;
         }
 
@@ -51,27 +47,20 @@ namespace CardCommon.CardRef
 
         public static bool GetHardwareID(out StringBuilder HardwareID,out StringBuilder pBuffer, out string strret)
         {
-            //StringBuilder 
-            
-            //return Rtn == 0 ? true : false;
-
-            //string strret = "";
-            string strNTCode = System.Configuration.ConfigurationManager.AppSettings["RegisterCode"];//"ynhrMemberManage";
-            string strNTpassword = System.Configuration.ConfigurationManager.AppSettings["RegisterPwd"];// "e880ee65905ad1c3bb9e66a1a9dbe091";
-            //string strwrite = System.Configuration.ConfigurationManager.AppSettings["RegisterInfo"]; //"dx_ynrcsc";
+            string strNTCode = System.Configuration.ConfigurationManager.AppSettings["RegisterCode"];
+            string strNTpassword = System.Configuration.ConfigurationManager.AppSettings["RegisterPwd"];
             pBuffer = new StringBuilder(32);
             HardwareID = new StringBuilder(32);// 硬件序列号
-            if (!FindFirst(strNTCode, out strret)) return false;//throw new Exception(strret);
-            if (!Login(strNTpassword, out strret)) return false;//throw new Exception(strret);
-            if (!Read(10, 9, pBuffer, out strret)) return false;//throw new Exception(strret);
+            if (!FindFirst(strNTCode, out strret)) return false;
+            if (!Login(strNTpassword, out strret)) return false;
+            if (!Read(10, 9, pBuffer, out strret)) return false;
 
             
             Rtn = NT77API.NTGetHardwareID(HardwareID);//获取硬件序列号，如果返回值为 0，表示获取硬件序列号成功。
             //如果返回值不为0，则可以通过返回值Rtn查看错误代码
             strret = GetStr(Rtn);
 
-            if (!Logout(out strret)) return false;//throw new Exception(strret);
-            //if (!pBuffer.ToString().Equals(strwrite)) return false;
+            if (!Logout(out strret)) return false;
             if (Rtn != 0) return false;
             return true;
 
