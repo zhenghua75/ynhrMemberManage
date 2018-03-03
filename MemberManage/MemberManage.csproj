@@ -195,9 +195,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Business\help.chm" />
-    <None Include="help.chm" />
-    <None Include="Resources\EntityBuildClass.cst" />
     <EmbeddedResource Include="Business\SalesManage.resx">
       <DependentUpon>SalesManage.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -210,7 +207,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>ManageNT77.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Template_Office2007.isl" />
     <EmbeddedResource Include="App.ico" />
     <EmbeddedResource Include="Business\AddPrepay.resx">
       <DependentUpon>AddPrepay.cs</DependentUpon>
@@ -509,8 +505,6 @@
     <EmbeddedResource Include="Reports\SignInReport.resx">
       <DependentUpon>SignInReport.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Logo.jpg" />
-    <EmbeddedResource Include="Resources\Template_Vista.isl" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -821,9 +815,6 @@
     <Compile Include="Reports\SignInReport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Content Include="Resources\index2.php.htm" />
-    <Content Include="Resources\Print.txt" />
-    <Content Include="Resources\TextFile1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
